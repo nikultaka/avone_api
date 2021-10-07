@@ -9,4 +9,9 @@ class RegisterController extends Controller
     public function index(){
     	return view('Admin/layouts/login/register');
     }
+
+    public function activeUserAccount(Type $var = null)
+    {
+        
+    }
 }

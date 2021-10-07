@@ -123,6 +123,10 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'EC_API_KEY' => '',
+    'EC_VERSION' => '',
+    'EC_REGION' => '',
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

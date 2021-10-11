@@ -27,8 +27,12 @@ Route::group(['prefix' => 'admin'], function() {
     Route::post('/proccess/login','App\Http\Controllers\Admin\LoginController@loginProccess')->name('admin-login-proccess');
     // register
     Route::get('/register','App\Http\Controllers\Admin\RegisterController@index')->name('admin-register');
-    Route::get('/active/user/account','App\Http\Controllers\Admin\RegisterController@activeUserAccount')->name('admin-active-account');
-
+    Route::get('/active/user/account/{id}','App\Http\Controllers\Admin\RegisterController@activeUserAccount')->name('admin-active-account');
+    // forgot password
+    Route::get('/forgot/password','App\Http\Controllers\Admin\ForgotPasswordController@index')->name('admin-forgot');
+    Route::post('/forgot/password/send/mail','App\Http\Controllers\Admin\ForgotPasswordController@sendMailToUser')->name('admin-forgot-send-mail');
+    Route::get('/forgot/password/newpassword/{token}','App\Http\Controllers\Admin\ForgotpasswordController@newPasswordView')->name('admin-new-password-view');
+    Route::post('/forgot/password/setnew/password','App\Http\Controllers\admin\ForgotpasswordController@setNewPassword')->name('admin-set-new-password');
 
 
     // after login
@@ -42,8 +46,7 @@ Route::group(['prefix' => 'admin'], function() {
     
     // ManageUsersController  user email exist or not
     Route::get('/user/email/exist/ornot','App\Http\Controllers\Admin\ManageUsersController@emailExistOrNot')->name('admin-users-email-exist-ornot');
-
-
+    
     if(isset($_COOKIE['is_admin']) && $_COOKIE['is_admin'] != '' && $_COOKIE['is_admin'] == 1){
         // settings
         Route::get('/settings','App\Http\Controllers\Admin\SettingController@index')->name('admin-setting');
@@ -55,6 +58,22 @@ Route::group(['prefix' => 'admin'], function() {
         Route::post('/manage/users/dataTable','App\Http\Controllers\Admin\ManageUsersController@manageUsersDataTable')->name('admin-manage-users-datatable');
         Route::post('/manage/users/edit','App\Http\Controllers\Admin\ManageUsersController@manageUsersEdit')->name('admin-manage-users-edit');
         Route::post('/manage/users/delete','App\Http\Controllers\Admin\ManageUsersController@manageUsersDelete')->name('admin-manage-users-delete');
+
+        // Manage users
+        Route::get('/whitelist/ip','App\Http\Controllers\Admin\WhitelistIpController@index')->name('admin-whitelist-ip');
+        Route::post('/whitelist/ip/save','App\Http\Controllers\Admin\WhitelistIpController@whitelistIpSave')->name('admin-whitelist-ip-save');
+        Route::post('/whitelist/ip/dataTable','App\Http\Controllers\Admin\WhitelistIpController@whitelistIpDataTable')->name('admin-whitelist-ip-datatable');
+        Route::post('/whitelist/ip/edit','App\Http\Controllers\Admin\WhitelistIpController@whitelistIpEdit')->name('admin-whitelist-ip-edit');
+        Route::post('/whitelist/ip/delete','App\Http\Controllers\Admin\WhitelistIpController@whitelistIpDelete')->name('admin-whitelist-ip-delete');
+
+         // cms
+         Route::get('/cms','App\Http\Controllers\Admin\CmsController@index')->name('admin-cms-form');
+         Route::post('/cms/add','App\Http\Controllers\Admin\CmsController@addCms')->name('admin-cms-add');
+         Route::post('/cms/datatable','App\Http\Controllers\Admin\CmsController@cmsDatatable')->name('admin-cms-datatable');
+         Route::post('/cms/delete','App\Http\Controllers\Admin\CmsController@deleteCmsData')->name('admin-cms-delete');
+         Route::post('/cms/edit','App\Http\Controllers\Admin\CmsController@editCmsData')->name('admin-cms-edit');
+         Route::any('/cms/checkslug','App\Http\Controllers\Admin\CmsController@checkSlug')->name('admin-cms-checkslug');
+
     }
     
 });

@@ -9,6 +9,31 @@
         <div class="card">
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new membership</p>
+                @if (\Session::has('success'))
+                <div class="alert alert-success">
+                    <ul>
+                        <li>{!! \Session::get('success') !!}</li>
+                    </ul>
+                </div>
+                @endif
+                @if (\Session::has('error'))
+                <div class="alert alert-danger">
+                    <ul>
+                        <li>{!! \Session::get('error') !!}</li>
+                    </ul>
+                </div>
+                @endif
+                @if (count($errors))
+                <div class="alert alert-danger">
+                    <!-- <strong>Whoops!</strong> There were some problems with your input.
+                    <br /> -->
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <div class="alert alert-danger print-error-msg" style="display:none;">
                     <ul></ul>
                 </div>
@@ -18,6 +43,7 @@
                         <div class="input-group-append"><div class="input-group-text"><span class="fas fa-user"></span></div></div>
                     </div>
                     <div class="input-group mb-3">
+                        <label for="email"></label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text"><span class="fas fa-envelope"></span></div>

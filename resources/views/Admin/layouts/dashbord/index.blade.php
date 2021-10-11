@@ -1,3 +1,8 @@
+@php
+namespace App\Helpers; 
+$logInUserData = logInUserData();
+@endphp
+
 <!doctype html>
 <html lang="en">
 
@@ -11,6 +16,7 @@
    }
     </style>
     <!--  Theme Top JavaScript / CSS   -->
+    <script src="{{ asset('assets/cdn_js/jquery.min.js') }}"></script>
     
      <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -20,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('assets/theme/admin/css/tempusdominus-bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('assets/theme/admin/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('assets/theme/admin/css/fontawesome-free/css/all.min.css') }}">
       <!-- Ionicons -->
@@ -31,16 +38,26 @@
     <!--  Custom Top JavaScript   -->
     <link rel="stylesheet" href="{{ asset('assets/cdn_css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/theme/admin/css/style.css') }}">
-
-    <script src="{{ asset('assets/cdn_js/jquery.min.js') }}"></script>
+    
+    @php
+        $settingData = settingData();
+        $settingVersion = isset($settingData['version']) ? $settingData['version'] : '';
+        $settingEcApiKey = isset($settingData['ecapikey']) ? $settingData['ecapikey'] : '';
+        $settingEcRegion = isset($settingData['ec_region']) ? $settingData['ec_region'] : '';
+        config(['app.EC_API_KEY' => $settingEcApiKey]);
+        config(['app.EC_VERSION' => $settingVersion]);
+        config(['app.EC_REGION' => $settingEcRegion]);
+        $version = config('app.EC_VERSION');
+        $region = config('app.EC_REGION');
+        $userIsSuperAdmin = userIsSuperAdmin();
+    @endphp
     <script src="{{ asset('assets/cdn_js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <script type="text/javascript"> 
         var BASE_URL = "{{ url('/') }}"; 
         var ADMIN = 'admin';
-        var ELASTIC_VERSION = '7.14.2';
-        var ELASTIC_REGION = 'azure-eastus2';
         var mode = 'local';
         if(mode == 'local'){
           var API_PREFIX = 'http://127.0.0.1:8001';
@@ -48,11 +65,13 @@
         if(mode == 'live'){
           var API_PREFIX = 'http://127.0.0.1:8000';
         }
+        var ELASTIC_REGION = '<?php echo $region; ?>'; 
+        var ELASTIC_VERSION = '<?php echo $version; ?>';
+        var userIsSuperAdmin = '<?php echo $userIsSuperAdmin; ?>';
     </script>
     
     @yield('headersection')
     <!--  End Custom Top JavaScript   -->
-
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -87,8 +106,8 @@
             </section>
         </div>
     {{-- </div> --}}
+    <script src="{{ asset('assets/theme/admin/js/charts/Chart.min.js') }}"></script>
 
-    @include('Admin.layouts.dashbord.footer')
     
     <!-- Theme JavaScript  -->
     <script src="{{ asset('assets/theme/admin/js/adminlte.js') }}"></script>
@@ -104,7 +123,9 @@
     {{-- toastr --}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('assets/admin/js/common.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/admin/js/logout.js') }}"></script>
     @yield('footersection')
+    @include('Admin.layouts.dashbord.footer')
 </div>
 </body>
 </html>

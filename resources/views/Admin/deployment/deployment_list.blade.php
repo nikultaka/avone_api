@@ -9,8 +9,16 @@
 
 @section('admincontent')
 @include('Admin.deployment.deployment_modal')
+@include('Admin.deployment.deployment_view_data_modal')
+<style>
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+max-width: 400px !important;
+}
+</style>
+
     <div class="card card-primary card-outline">
         @csrf
+        <input type="hidden" id="numberOfAjax" name="numberOfAjax" value="">
         <div class="card-header">
             <h3 class="card-title">Deployment List</h3>
             <button class="btn btn-info float-right" id="addNewDeployment">Add New Deployment</button>
@@ -20,9 +28,20 @@
                 <table class="table table-striped table-bordered" id="deploymentDataTable">
                     <thead>
                         <tr>
-                            <th>#Id</th>
+                            {{-- <th>#Id</th> --}}
                             <th>Name</th>
-                            <th style="min-width: 200px">Action</th>
+                            <?php 
+                                if(userIsSuperAdmin()){ ?>
+                                        <th>Cloud ID</th>
+                                <?php }
+                            ?>
+                            <th>Status</th>
+                            <?php 
+                            if(userIsSuperAdmin()){ ?>
+                                <th>Kibana Link</th>
+                                <?php }
+                            ?>  
+                            <th style="min-width: 250px">Action</th>
                         </tr>
                     </thead>
                     <tbody class="ajaxResponse">

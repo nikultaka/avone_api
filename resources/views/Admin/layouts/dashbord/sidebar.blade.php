@@ -15,12 +15,12 @@
          <img src="{{asset('assets/theme/admin/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
        </div>
        <div class="info">
-         <a href="#" class="d-block">Alexander Pierce</a>
+         <a href="{{ route('admin-dashboard') }}" class="d-block">{{$logInUserData['userName']}}</a>
        </div>
      </div>
 
      <!-- SidebarSearch Form -->
-     <div class="form-inline">
+     {{-- <div class="form-inline">
        <div class="input-group" data-widget="sidebar-search">
          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
          <div class="input-group-append">
@@ -29,7 +29,7 @@
            </button>
          </div>
        </div>
-     </div>
+     </div> --}}
 
      <!-- Sidebar Menu -->
      <nav class="mt-2">
@@ -47,10 +47,27 @@
               <p>Deployment</p>
             </a>
           </li>
+          <?php
+            if($logInUserData['is_admin'] == 1){ ?>
+                  <li class="nav-item">
+                    <a href="{{ route('admin-manage-users') }}" class="nav-link <?php echo $routeName == 'admin-manage-users' ? 'active':'';?>">
+                       <i class="nav-icon fa fa-users"></i>
+                       <p>Manage Users</p>
+                     </a>
+                   </li>
+                   <li class="nav-item">
+                    <a href="{{ route('admin-setting') }}" class="nav-link <?php echo $routeName == 'admin-setting' ? 'active':'';?>">
+                       <i class="nav-icon fas fa-cogs"></i>
+                       <p>Settings</p>
+                     </a>
+                   </li>
+           <?php }
+          ?>          
+       
          <li class="nav-item">
-           <a href="#" class="nav-link">
-             <i class="nav-icon far fa-circle text-info"></i>
-             <p>Informational</p>
+          <a href="javascript:void(0)" class="nav-link adminLogout">
+             <i class="nav-icon fas fa-sign-out-alt"></i>
+             <p>Sign Out</p>
            </a>
          </li>
        </ul>

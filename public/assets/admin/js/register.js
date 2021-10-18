@@ -23,7 +23,7 @@ $(document).ready(function () {
           email: {
             required:'Email is required',
               email:'Enter a valid email',
-              remote: 'That email address is already registered.'
+              remote: 'That email address is already registered.',
           },
           password: {
             required:'Password is required',
@@ -70,3 +70,18 @@ function printErrorMsg(msg) {
   $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
   });
 }
+
+$('#term').on('click',function(){
+  $.ajax({
+       url: BASE_URL + '/' + ADMIN + '/term',
+       type: 'get',
+        //  data: ,
+       success: function (responce){
+        var data = JSON.parse(responce);
+        if (data.status == 1) {
+          $('#termsModal').modal('show');
+          $('#termData').html(data.cmsPageData.descriptioneditor);
+        }
+       }
+  });
+});

@@ -21,12 +21,12 @@ class DeploymentController extends Controller
     public function deploymentDataTable(Request $request){  
         userLoggedIn();
         $token = getLoginAccessToken();
-        $deploymentListArrayHelper = deploymentListArrayHelper();      
+        $API_PREFIX = $request->urlbase;
+        $deploymentListArrayHelper = deploymentListArrayHelper($API_PREFIX,$token);      
 
         $request->session()->forget('deploymentList');
         $request->session()->put('deploymentList', $deploymentListArrayHelper);
         
-        $API_PREFIX = $request->urlbase;
         $ajaxResponse['status'] = 0;
         if ($request->ajax()) {
             $encode_response = deploymentListApiCall($API_PREFIX,$token);
@@ -82,8 +82,9 @@ class DeploymentController extends Controller
 
     
     public function changeStatusInfoAlert(Request $request){
-
-        $deploymentListArrayHelper = deploymentListArrayHelper();              
+        $token = getLoginAccessToken();
+        $API_PREFIX = $request->urlbase;
+        $deploymentListArrayHelper = deploymentListArrayHelper($API_PREFIX,$token);              
         $deploymentWithNewKey = array();
             foreach($deploymentListArrayHelper as $deploymentList ){
                 $deploymentWithNewKey[]  = recursive_change_key($deploymentList, array('name' => 'name_'.$deploymentList['id'].'', 'status' => 'status_'.$deploymentList['id'].''));
@@ -140,6 +141,10 @@ class DeploymentController extends Controller
         }
         echo json_encode($ajaxResponse);
         exit; 
+    }
+
+    public function FunctionName(Type $var = null){
+        
     }
 
    

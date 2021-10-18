@@ -4,12 +4,15 @@
         <!-- Modal content-->
         <div class="modal-content">
            <div class="modal-header">
-               <h5 class="modal-title">Add Cms</h5>
+               <h5 class="modal-title">Add CMS Page</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                  <span aria-hidden="true">&times;</span>
                </button>
              </div>
             <div class="modal-body">
+                <div class="alert alert-danger print-error-msg" style="display:none;">
+                    <ul></ul>
+                </div>
                 <form onsubmit="return false" method="post" id="addcmsform" class="needs-validation" novalidate name="addcmsform">
                     {{ csrf_field() }}
                     <input type="hidden" id="hid" name="hid" value="{{isset($edit_cms->id) ? $edit_cms->id : ''}}">
@@ -54,7 +57,6 @@
                                 </div>
                                 <div class="col-sm-10">
                                   <input type="text" class="form-control" id="metakeyword" name = "metakeyword" placeholder="Enter Meta Keyword" value="{{isset($edit_cms->metakeyword) ? $edit_cms->metakeyword : ''}}" >
-
                               </div>
                         </div>
                         <div class="form-group row">
@@ -78,7 +80,7 @@
                             </div>
                         </div>
                         <button type="submit" id="addcms" name="addcms" class="btn btn-primary">Submit</button>
-                        <button type="submit" class="btn btn-secondary">Cancle</button>
+                        <button type="button" class="btn btn-secondary">Cancle</button>
                  </form>
             </div>
         </div>

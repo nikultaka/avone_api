@@ -10,7 +10,7 @@ if (!function_exists('curlCall')) {
             $settingData = settingData();
             $EC_API_KEY = isset($settingData['ecapikey']) ? $settingData['ecapikey'] : '';
         }
-
+        
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => env("API_URL") . $path,
@@ -31,6 +31,7 @@ if (!function_exists('curlCall')) {
             ),
         ));
         $response = curl_exec($curl);
+        
         // $error_msg = curl_error($curl);
         curl_close($curl);
         return json_decode($response);
